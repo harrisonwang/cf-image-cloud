@@ -1,0 +1,37 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "cf-image-cloud",
+	"compatibility_date": "2025-08-03",
+	"main": "./src/index.tsx",
+
+	// 自定义域名配置（可选）
+	// 方式 1: 使用 routes（需要域名在 Cloudflare 上）
+	// "routes": [
+	//   {
+	//     "pattern": "img.example.com/*",
+	//     "zone_name": "example.com"
+	//   }
+	// ],
+
+	// 方式 2: 使用 workers_dev（默认使用 workers.dev 域名）
+	"workers_dev": true,
+
+	"r2_buckets": [
+		{
+			"binding": "IMAGE_BUCKET",
+			"bucket_name": "cf-image-cloud-storage",
+			"remote": true
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "IMAGE_METADATA",
+			"id": "your-kv-namespace-id-here",
+			"remote": true
+		}
+	],
+	"vars": {
+		"MAX_FILE_SIZE": 10485760,
+		"ALLOWED_ORIGINS": "*"
+	}
+}
